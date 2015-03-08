@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    {% load staticfiles %}
+    <head>
+        <title>{% block title %} {% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    </head>
+    <body>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/home">
+                        <img src="{% static "logo.jpg" %}" alt="Команда ежей"
+                         style="height:50px; margin-top:-14px"/>
+                    </a>
+                </div>
+                
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="/home">
+                                Главная
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/teachers">
+                                Преподаватели
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                aria-expanded="false">Видеоуроки<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="/lectures/all">
+                                        Все уроки
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/lectures/math78">
+                                        Математика 7-8 класс
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/lectures/math910">
+                                        Математика 9-10 класс
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/lectures/phys78">
+                                        Физика 7-8 класс
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/lectures/phys910">
+                                        Физика 9-10 класс
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/contacts">
+                                Контакты
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="col-md-10">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+                <div class="col-md-2">
+                    {% block side_info %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="container-fluid">
+            <p class="text-center small">Команда ежей, 2015</p>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    </body>
+</html>
+
