@@ -8,4 +8,9 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^home/', 'summer.views.main_page'),
+    url(r'^lessons/([0-9]+)/', 'summer.views.video_lesson_page'),
+    url(r'^lectures/all/', 'summer.views.video_lectures_all'),
+    url(r'^lectures/(.+)/', 'summer.views.specific_course'),
+    url(r'^teachers/', 'summer.views.teachers'),
+    url(r'^contacts/', 'summer.views.contact_us'),
 )

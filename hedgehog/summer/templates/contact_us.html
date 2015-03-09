@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}
+Связаться с нами
+{% endblock %}
+
+{% block content %}
+
+{% load bootstrap_tags %}
+
+{% for message in messages %}
+    <div class="alert alert-{{message.tags}}">
+        {{message}}
+    </div>
+{% endfor %}
+
+<div class="row-fluid">
+    <div class="col-md-7">
+        <h3>Свяжитесь с нами:</h3>
+        <form action="/contacts/" method="post" class="form-vertical">
+            {% csrf_token %}
+            {{ form|as_bootstrap }}
+            <input class="btn btn-primary" type="submit" value="Отправить" />
+        </form>
+    </div>
+    <div class="col-md-5">
+        <h3>Наши контакты:</h3>
+        <div>
+            <i class="fa fa-vk fa-4x"></i><a href="http://vk.com/hedgehogschool">hedgehogschool</a>
+        </div>
+        <div>
+            <i class="fa fa-youtube-play fa-4x"></i><a href="http://www.youtube.com/">youtube</a>
+        </div>
+        <div>
+            <i class="fa fa-inbox fa-4x"></i><a href="mailto:some@email.com">some@email.com</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

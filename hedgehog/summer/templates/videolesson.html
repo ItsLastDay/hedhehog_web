@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}
+Просмотр видеоурока "{{video.title}}"
+{% endblock %}
+
+{% load bootstrap_tags %}
+{% block content %}
+<div class="row-fluid">
+    <h2 class="text-center">Курс "{{course.name}}"</h2>
+</div>
+<div class="row-fluid">
+    <div class="col-md-3">
+        <p class="text-center"><h3>Все уроки курса</h3></p>
+        <div class="list-group">
+            {% for lesson in other_lessons %}
+                {% if lesson.title == video.title %}
+                    <a href="/{{lesson.get_absolute_url}}" class="list-group-item active">
+                        {{lesson.number_in_course}}. {{lesson.title}}
+                    </a>
+                {% else %}
+                    <a href="/{{lesson.get_absolute_url}}" class="list-group-item">
+                        {{lesson.number_in_course}}. {{lesson.title}}
+                    </a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <h3>Урок {{video.number_in_course}}. {{video.title}}</h3>
+        <div class="embed-responsive embed-responsive-4by3">
+            <iframe class="embed-responsive-item" src={{video.youtube_url}} 
+                allowfullscreen></iframe>
+        </div>
+        <div class="well well-lg">
+            {{video.description}}
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <h3>Домашнее задание по уроку "{{video.title}}"</h3>
+
+        {% if video.link_to_homework %}
+            <div>
+                Ссылка на задачи домашней работы: 
+                    <a href="{{video.link_to_homework}}">условия задач</a>
+            </div>
+            <div> 
+                Комментарий преподавателя:
+                    {{video.homework_commentary|default:"отсутствует"}}
+            </div>
+            <div>
+                Загрузить решения:
+                {% if user.is_authenticated %}
+                    <form action="" method="POST" class="form-horizontal"
+                            enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form|as_bootstrap }}
+                        <input class="btn btn-primary" type="submit" value="Отправить" />
+                    </form>
+                {% else %}
+                    <p class="text-danger">только зарегистрированные пользователи могут
+                        отправлять решения</p>
+                {% endif %}
+            </div>
+
+        {% else %}
+            <div>
+                У этого урока нет домашнего задания.
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

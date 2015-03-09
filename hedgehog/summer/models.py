@@ -9,8 +9,11 @@ class Lesson(models.Model):
     title = models.CharField(max_length=300)
     description = models.TextField()
 
-    included_in_course = models.ForeignKey('Course', blank=True, related_name='lessons')
+    included_in_course = models.ForeignKey('Course', blank=False, related_name='lessons')
     number_in_course = models.IntegerField(db_index=True)
+
+    link_to_homework = models.URLField(null=True)
+    homework_commentary = models.TextField(blank=True)
 
     def __str__(self):
         return self.title
@@ -18,11 +21,18 @@ class Lesson(models.Model):
     def get_absolute_url(self):
         return 'lessons/%d' % self.id
 
+    class Meta:
+        ordering = ['number_in_course']
+
 class Course(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, db_index=True)
+    description = models.TextField(default="")
 
     def __str__(self):
         return self.name
+
+    def get_absoulte_url(self):
+        return 'courses/%d' % self.id
 
 
 class Post(models.Model):
@@ -58,3 +68,4 @@ class User(auth.models.User):
 
     class Meta:
         ordering = ['username']
+

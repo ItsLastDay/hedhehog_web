@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}
+Курс {{course.name}}
+{% endblock %}
+
+{% block content %}
+<div class="row-fluid">
+    {% include "single-course.html" %}
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Описание курса</h3>
+            </div>
+            <div class="panel-body">
+                {{course.description}}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        Тут ещё что-нибудь (фото\статистика\...)
+    </div>
+</div>
+
+{% endblock %}

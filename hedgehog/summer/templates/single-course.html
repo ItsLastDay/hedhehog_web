@@ -1,0 +1,12 @@
+<div class="col-md-3">
+    <h3><p class="text-center">{{course.name}}</p></h3>
+    <div class="list-group">
+        {% for lesson in course.lessons.all %}
+            <a href="/{{lesson.get_absolute_url}}" class="list-group-item">
+                {{lesson.number_in_course}}. {{lesson.title}}
+            </a>
+        {% empty %}
+            <p class="text-muted">В курсе отсутствуют видеоуроки</p>
+        {% endfor %}
+    </div>
+</div>
