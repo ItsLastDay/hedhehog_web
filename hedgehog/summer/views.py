@@ -1,7 +1,6 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.mail import send_mail
 from django.contrib.auth import logout, authenticate, login
-from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from django.contrib.messages import error, success
 from django.views.decorators.http import require_GET, require_POST
@@ -87,7 +86,7 @@ def contact_us(request):
         if form.is_valid():
             subject = 'Вопрос от %s' % form.cleaned_data['name'] 
             message = form.cleaned_data['question'] + '\n' + form.cleaned_data['email']
-            sender = 'MSU-CHM@yandex.ru'#form.cleaned_data['email']
+            sender = 'MSU-CHM@yandex.ru'
 
             recipients = ['misha@koltsov.su']
             send_mail(subject, message, sender, recipients)
@@ -99,5 +98,37 @@ def contact_us(request):
         return redirect('/contacts', permanent=True)
     else:
         form = ContactForm()
+
+    return render(request, 'contact_us.html', {'form': form})
+
+def registration_view(request):
+    if request.method == 'POST':
+        form = MyUserCreationForm(request.POST)
+
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+
+            city = form.cleaned_data['city']
+            grade = form.cleaned_data['grade']
+
+            username = email[:30]
+
+            pswd = form.clean_password2()
+
+            user = MyUser(username=username, first_name=first_name, last_name=last_name,\
+                    city=city, grade=grade, password=pswd) 
+            user.set_password(pswd)
+            user.save()
+
+            success(request, 'Вы успешно зарегистрированы')
+        else:
+            error(request, form.subject.errors)
+
+        return redirect('/register/', permanent=True)
+
+    else:
+        form = MyUserCreationForm()
 
     return render(request, 'contact_us.html', {'form': form})

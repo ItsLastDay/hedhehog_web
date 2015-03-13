@@ -13,4 +13,5 @@ urlpatterns = patterns('',
     url(r'^lectures/(.+)/', 'summer.views.specific_course'),
     url(r'^teachers/', 'summer.views.teachers'),
     url(r'^contacts/', 'summer.views.contact_us'),
+    url(r'^register/', 'summer.views.registration_view'),
 )

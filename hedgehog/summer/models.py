@@ -45,7 +45,7 @@ class Post(models.Model):
     class Meta:
         ordering = ['-pub_date']
 
-class User(auth.models.User):
+class MyUser(auth.models.AbstractUser):
     SEVENTH = '7'
     EIGHT = '8'
     NINTH = '9'
