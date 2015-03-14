@@ -1,17 +1,20 @@
 {% extends "base.html" %}
 
 {% block title %}
-Все курсы
+Регистрация
 {% endblock %}
 
 {% block content %}
+{% load bootstrap_tags %}
 
-{% for error_message in messages %}
-    <div class="alert alert-danger">{{error_message}}</div>
-{% endfor %}
 <div class="row-fluid">
-    <form action="/register" method="POST">
-        {{ form }}
-    </form>
+    <div class="col-md-6 col-md-offset-3">
+        <h2>Регистрация</h2>
+        <form action="/register/" method="POST">
+            {% csrf_token %}
+            {{ form|as_bootstrap }}
+            <input class="btn btn-primary btn-primary" type="submit" value="Зарегистрироваться" />
+        </form>
+    </div>
 </div>
 {% endblock %}

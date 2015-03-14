@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}
+Персональная страница пользователя {{user_r.first_name}} {{user_r.last_name}}
+{% endblock %}
+
+{% block content %}
+
+<div class="row-fluid">
+    <div class="col-md-6 col-md-offset-4">
+        <h3>Пользователь {{user_r.first_name}} {{user_r.last_name}}</h3>
+        
+        <div class="row">
+            <p class="col-md-2 text-right"><strong>Имя</strong>:</p>
+            <p class="col-md-10">{{user_r.first_name}}</p>
+        </div>
+        <div class="row">
+            <p class="col-md-2 text-right"><strong>Фамилия</strong>:</p>
+            <p class="col-md-10">{{user_r.last_name}}</p>
+        </div>
+        <div class="row">
+            <p class="col-md-2 text-right"><strong>Город</strong>:</p>
+            <p class="col-md-10">{{user_r.city}}</p>
+        </div>
+        <div class="row">
+            <p class="col-md-2 text-right"><strong>Класс</strong>:</p>
+            <p class="col-md-10">{{user_r.grade}}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

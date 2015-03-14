@@ -19,7 +19,7 @@ class Lesson(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return 'lessons/%d' % self.id
+        return '/lessons/%d' % self.id
 
     class Meta:
         ordering = ['number_in_course']
@@ -31,8 +31,8 @@ class Course(models.Model):
     def __str__(self):
         return self.name
 
-    def get_absoulte_url(self):
-        return 'courses/%d' % self.id
+    def get_absolute_url(self):
+        return '/courses/%d' % self.id
 
 
 class Post(models.Model):
@@ -45,7 +45,27 @@ class Post(models.Model):
     class Meta:
         ordering = ['-pub_date']
 
-class MyUser(auth.models.AbstractUser):
+class MyUserManager(auth.models.BaseUserManager):
+    def create_user(self, email, password=None, **kwargs):
+        email = self.normalize_email(email)
+        if not email:
+            raise ValueError('У пользователя должен быть email')
+
+        user = self.model(email=email,
+                first_name=kwargs.get('first_name', ''), \
+                last_name=kwargs.get('last_name', ''),
+                grade=kwargs.get('grade', '7'),
+                city=kwargs.get('city', ''))
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, password):
+        user = self.create_user(email=email, password=password)
+        user.is_admin = True
+        return user
+
+class MyUser(auth.models.AbstractBaseUser):
     SEVENTH = '7'
     EIGHT = '8'
     NINTH = '9'
@@ -57,15 +77,42 @@ class MyUser(auth.models.AbstractUser):
             (TENTH, 10)
         )
 
-    city = models.CharField(max_length=255, db_index=True)
-    grade = models.CharField(max_length=2, db_index=True, choices=GRADES_CHOICES)
+    first_name = models.CharField(max_length=30, verbose_name='Имя')
+    last_name = models.CharField(max_length=30, verbose_name='Фамилия')
+    email = models.EmailField(unique=True, db_index=True, verbose_name='Email')
+    city = models.CharField(max_length=255, db_index=True, verbose_name='Город')
+    grade = models.CharField(max_length=2, db_index=True, choices=GRADES_CHOICES,\
+            verbose_name='Класс')
 
-    def set_password(self, psw):
-        super(auth.models.User, self).set_password(psw)
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
+
+    objects = MyUserManager()
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    def get_full_name(self):
+        return self.email
+
+    def get_short_name(self):
+        return self.email
+
+    def has_perm(self, perm, obj=None):
+        return True
+
+    def has_module_perms(self, app_label):
+        return True
+
+    @property
+    def is_staff(self):
+        return self.is_admin
 
     def __str__(self):
-        return self.username
+        return self.email
 
     class Meta:
-        ordering = ['username']
+        ordering = ['email']
 
+    def get_absolute_url(self):
+        return '/users/%d' % self.id

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}
+Вход
+{% endblock %}
+
+{% block content %}
+{% load bootstrap_tags %}
+
+<div class="row-fluid">
+    <div class="col-md-6 col-md-offset-4">
+        <h2>Вход на сайт</h2>
+        <form action="/login/" method="POST">
+            {% csrf_token %}
+            <div>
+                <label for="email">Email
+                    <input class="form-control" type="email" name="email"/>
+                </label>
+            </div>
+            <div>
+                <label for="password">Пароль
+                    <input class="form-control" type="password" name="password"/>
+                </label>
+            </div>
+            <input class="btn btn-primary btn-primary" type="submit" value="Войти" />
+        </form>
+    </div>
+</div>
+{% endblock %}

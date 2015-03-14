@@ -12,7 +12,7 @@
             <div class="container-fluid">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="/home">
-                        <img src="{% static "logo.jpg" %}" alt="Команда ежей"
+                        <img class="img img-responsive img-circle" src="{% static "logo.jpg" %}" alt="Команда ежей"
                          style="height:50px; margin-top:-14px"/>
                     </a>
                 </div>
@@ -72,8 +72,35 @@
                         </li>
                     </ul>
                 </div>
+                <form class="navbar-form pull-right">
+                    {% if user.is_authenticated %}
+                        Вы авторизованы как 
+                        <a href={{user.get_absolute_url}}>{{user.first_name}} {{user.last_name}}</a>
+                        <a href="/logout/">Выйти</a>
+                    {% else %}
+                        <a href="/login/">
+                            <p class="btn btn-small">Войти</p>
+                        </a>
+                        <a href="/register/">
+                            <p class="btn btn-small">Зарегистрироваться</p>
+                        </a>
+                    {% endif %}
+                </form>
             </div>
         </nav>
+        <div class="container-fluid">
+            {% for msg in messages %}
+                {% if msg.tags == "success" %}
+                    <div class="alert alert-success">
+                        {{msg}}
+                    </div>
+                {% else %}
+                    <div class="alert alert-danger">
+                        {{msg}}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
         <div class="container-fluid">
             {% block content %}
             {% endblock %}

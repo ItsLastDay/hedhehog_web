@@ -6,9 +6,6 @@
 
 {% block content %}
 
-{% for error_message in messages %}
-    <div class="alert alert-danger">{{error_message}}</div>
-{% endfor %}
 <div class="row-fluid">
     {% for course in courses %}
         {% include "single-course.html" %}

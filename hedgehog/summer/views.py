@@ -93,7 +93,7 @@ def contact_us(request):
 
             success(request, 'Сообщение успешно отправлено')
         else:
-            error(request, form.subject.errors)
+            error(request, form.errors)
 
         return redirect('/contacts', permanent=True)
     else:
@@ -113,22 +113,55 @@ def registration_view(request):
             city = form.cleaned_data['city']
             grade = form.cleaned_data['grade']
 
-            username = email[:30]
-
             pswd = form.clean_password2()
 
-            user = MyUser(username=username, first_name=first_name, last_name=last_name,\
-                    city=city, grade=grade, password=pswd) 
-            user.set_password(pswd)
+            user = MyUser.objects.create_user(email,\
+                    pswd, \
+                    first_name=first_name, last_name=last_name,\
+                    city=city, grade=grade) 
             user.save()
 
             success(request, 'Вы успешно зарегистрированы')
         else:
-            error(request, form.subject.errors)
+            error(request, form.errors)
 
         return redirect('/register/', permanent=True)
 
     else:
         form = MyUserCreationForm()
 
-    return render(request, 'contact_us.html', {'form': form})
+    return render(request, 'register.html', {'form': form})
+
+def user_view(request, uid):
+    try:
+        user = MyUser.objects.get(id=uid)
+    except:
+        error(request, 'Запрошенный пользователь не найден.')
+        return redirect('/home/', permanent=True)
+
+    return render(request, 'userpage.html', {'user_r': user})
+
+def login_view(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+        
+        user = authenticate(email=email, password=password)
+
+        if user is not None:
+            login(request, user)
+            success(request, 'Вход успешно произведен')
+            return redirect('/home/', permanent=True)
+        else:
+            error(request, 'Неверный e-mail или пароль')
+            return redirect('/login/', permanent=True)
+    
+    return render(request, 'login.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect('/home', permanent=True)
+
+def not_found(request):
+    error(request, 'Запрашиваемая вами страница не найдена')
+    return redirect('/home', permanent=True)
