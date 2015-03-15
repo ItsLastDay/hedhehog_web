@@ -6,20 +6,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-        <link href="{% static "css/main.css" %}" rel="stylesheet">
-        <link href="{% static "css/responsive.css" %}" rel="stylesheet">
     </head>
     <body>
-        <nav class="navbar navbar-inverse">
+        <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-                    <!-- <a class="navbar-brand" href="/home">
-                        <img class="img img-responsive img-circle" src="{% static "logo.jpg" %}" alt="Команда ежей"/>ОЛИМП
-                    </a>  -->
+                     <a class="navbar-brand" href="/home">
+                         ОЛИМП
+                    </a>
                 </div>
                 
-                <div class="collapse navbar-collapse navbar-right">
+                <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
                         <li class="active">
                             <a href="/home">
@@ -73,21 +71,29 @@
                             </a>
                         </li>
                     </ul>
+                    <form class="navbar-right">
+                        {% if user.is_authenticated %}
+                            <div>
+                                Вы авторизованы как 
+                                <a href={{user.get_absolute_url}}>{{user.first_name}} {{user.last_name}}</a>
+                            </div>
+                            <div class="text-right">
+                                <a href="/logout/"><p class="btn btn-primary btn-xs">Выйти</p></a>
+                            </div>
+                        {% else %}
+                            <div class="text-right">
+                                <a href="/login/">
+                                    <p class="btn btn-primary btn-xs">Войти</p>
+                                </a>
+                            </div>
+                            <div>
+                                <a href="/register/">
+                                    <p class="btn btn-primary btn-xs">Зарегистрироваться</p>
+                                </a>
+                            </div>
+                        {% endif %}
+                    </form>
                 </div>
-                <form class="navbar-form pull-right">
-                    {% if user.is_authenticated %}
-                        Вы авторизованы как 
-                        <a href={{user.get_absolute_url}}>{{user.first_name}} {{user.last_name}}</a>
-                        <a href="/logout/">Выйти</a>
-                    {% else %}
-                        <a href="/login/">
-                            <p class="btn btn-small">Войти</p>
-                        </a>
-                        <a href="/register/">
-                            <p class="btn btn-small">Зарегистрироваться</p>
-                        </a>
-                    {% endif %}
-                </form>
             </div>
         </nav>
         <div class="container-fluid">
@@ -111,13 +117,6 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
         {% block additional_script %}
         {% endblock %}
-        <footer id="footer">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm-6">Copyright &copy; 2015 ОЛИМП
-            </div>
-          </div>
-        </footer>
     </body>
 </html>
 

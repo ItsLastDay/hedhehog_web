@@ -12,7 +12,7 @@ from summer.forms import *
 
 @require_GET
 def main_page(request):
-    return render(request, 'home.html', dict())
+    return render(request, 'base.html', dict())
 
 @require_GET
 def video_lesson_page(request, v_id):
