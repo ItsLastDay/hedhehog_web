@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    {% load staticfiles %}
+    <head>
+        <title>{% block title %} {% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <link href="{% static "css/main.css" %}" rel="stylesheet">
+        <link href="{% static "css/responsive.css" %}" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                   <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                    <!--<a class="navbar-brand" href="/home">
+                        <img class="img img-responsive img-circle" src="{% static "logo.jpg" %}" alt="Команда ежей"/>ОЛИМП
+                    </a>  -->
+                </div>
+                
+                <div class="collapse navbar-collapse navbar-right">
+                    <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="/home">
+                                Главная
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/teachers">
+                                Преподаватели
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                aria-expanded="false">Видеоуроки<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="/lectures/all">
+                                        Все уроки
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li class="dropdown-header">Математика</li>
+                                <li>
+                                    <a href="/lectures/math78">
+                                        7-8 класс
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/lectures/math910">
+                                        9-10 класс
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li class="dropdown-header">Физика</li>
+                                <li>
+                                    <a href="/lectures/phys78">
+                                        7-8 класс
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/lectures/phys910">
+                                        9-10 класс
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/contacts">
+                                Контакты
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <form class="navbar-form pull-right">
+                    {% if user.is_authenticated %}
+                        Вы авторизованы как 
+                        <a href={{user.get_absolute_url}}>{{user.first_name}} {{user.last_name}}</a>
+                        <a href="/logout/">Выйти</a>
+                    {% else %}
+                        <a href="/login/">
+                            <p class="btn btn-small">Войти</p>
+                        </a>
+                        <a href="/register/">
+                            <p class="btn btn-small">Зарегистрироваться</p>
+                        </a>
+                    {% endif %}
+                </form>
+            </div>
+        </nav>
+        <div class="container-fluid">
+            {% for msg in messages %}
+                {% if msg.tags == "success" %}
+                    <div class="alert alert-success">
+                        {{msg}}
+                    </div>
+                {% else %}
+                    <div class="alert alert-danger">
+                        {{msg}}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="container-fluid">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        {% block additional_script %}
+        {% endblock %}
+        <footer id="footer">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-6">Copyright &copy; 2015 ОЛИМП
+            </div>
+          </div>
+        </footer>
+    </body>
+</html>
+
