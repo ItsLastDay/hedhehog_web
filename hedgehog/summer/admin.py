@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
-from summer.models import MyUser, Lesson, Post, Course
+from summer.models import User, Lesson, Post, Course
 
 from django import forms
 from django.contrib.auth.admin import UserAdmin
@@ -14,7 +14,7 @@ class UserCreationForm(forms.ModelForm):
     password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
 
     class Meta:
-        model = MyUser
+        model = User
         fields = ('email', 'city', 'grade', 'first_name', 'last_name')
 
     def clean_password2(self):
@@ -42,7 +42,7 @@ class UserChangeForm(forms.ModelForm):
     password = ReadOnlyPasswordHashField()
 
     class Meta:
-        model = MyUser
+        model = User
         fields = ('email', 'password', 'city', 'grade', 'is_active', 'is_admin')
 
     def clean_password(self):
@@ -52,7 +52,7 @@ class UserChangeForm(forms.ModelForm):
         return self.initial["password"]
 
 
-class MyUserAdmin(UserAdmin):
+class UserAdmin(UserAdmin):
     # The forms to add and change user instances
     form = UserChangeForm
     add_form = UserCreationForm
@@ -87,6 +87,7 @@ class LessonAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(Post)
 admin.site.register(Lesson, LessonAdmin)
-admin.site.register(MyUser, MyUserAdmin)
+#admin.site.register(User, MyUserAdmin)
+admin.site.register(User)
 admin.site.register(Course)
 admin.site.unregister(Group)

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from summer.models import MyUser
+from summer.models import User
 
 class HomeworkSubmitForm(forms.Form):
     file = forms.FileField()
@@ -16,7 +16,7 @@ class MyUserCreationForm(forms.Form):
     last_name = forms.CharField(max_length=255, label=r'Фамилия', required=True)
 
     city = forms.CharField(max_length=255, label=r'Город')
-    grade = forms.ChoiceField(label=r'Класс', choices=MyUser.GRADES_CHOICES, required=True)
+    grade = forms.ChoiceField(label=r'Класс', choices=User.GRADES_CHOICES, required=True)
 
     password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput())
     password2 = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput())
@@ -32,7 +32,7 @@ class MyUserCreationForm(forms.Form):
     def clean_email(self):
         username = self.cleaned_data['email']
         try:
-            MyUser.objects.get(email=username)
-        except MyUser.DoesNotExist:
+            User.objects.get(email=username)
+        except User.DoesNotExist:
             return username
         raise forms.ValidationError(r'Такой пользователь уже существует')

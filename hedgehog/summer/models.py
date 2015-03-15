@@ -64,9 +64,10 @@ class MyUserManager(auth.models.BaseUserManager):
     def create_superuser(self, email, password):
         user = self.create_user(email=email, password=password)
         user.is_admin = True
+        user.is_superuser = True
         return user
 
-class MyUser(auth.models.AbstractBaseUser):
+class User(auth.models.AbstractBaseUser):
     SEVENTH = '7'
     EIGHT = '8'
     NINTH = '9'

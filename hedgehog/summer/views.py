@@ -20,7 +20,7 @@ def video_lesson_page(request, v_id):
     data = dict()
 
     try:
-        video = Lesson.objects.prefetch_related('included_in_course__lessons').get(id=v_id)
+        video = Lesson.objects.select_related('included_in_course').prefetch_related('included_in_course__lessons').get(id=v_id)
         course = video.included_in_course
     except:
         error(request, 'Запрошенный урок не найден')
