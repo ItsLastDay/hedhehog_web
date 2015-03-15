@@ -15,11 +15,11 @@
         <div class="list-group">
             {% for lesson in other_lessons %}
                 {% if lesson.title == video.title %}
-                    <a href="/{{lesson.get_absolute_url}}" class="list-group-item active">
+                    <a href="{{lesson.get_absolute_url}}" class="list-group-item active">
                         {{lesson.number_in_course}}. {{lesson.title}}
                     </a>
                 {% else %}
-                    <a href="/{{lesson.get_absolute_url}}" class="list-group-item">
+                    <a href="{{lesson.get_absolute_url}}" class="list-group-item">
                         {{lesson.number_in_course}}. {{lesson.title}}
                     </a>
                 {% endif %}
