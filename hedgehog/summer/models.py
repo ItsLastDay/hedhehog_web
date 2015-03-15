@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib import auth
 
@@ -15,7 +16,7 @@ class Lesson(models.Model):
     link_to_homework = models.URLField(null=True)
     homework_commentary = models.TextField(blank=True)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.title
 
     def get_absolute_url(self):
@@ -28,7 +29,7 @@ class Course(models.Model):
     name = models.CharField(max_length=255, db_index=True)
     description = models.TextField(default="")
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     def get_absolute_url(self):
@@ -39,7 +40,7 @@ class Post(models.Model):
     pub_date = models.DateTimeField(db_index=True)
     description = models.TextField()
 
-    def __str__(self):
+    def __unicode__(self):
         return self.description
 
     class Meta:
@@ -49,7 +50,7 @@ class MyUserManager(auth.models.BaseUserManager):
     def create_user(self, email, password=None, **kwargs):
         email = self.normalize_email(email)
         if not email:
-            raise ValueError('У пользователя должен быть email')
+            raise ValueError(r'У пользователя должен быть email')
 
         user = self.model(email=email,
                 first_name=kwargs.get('first_name', ''), \
@@ -77,12 +78,12 @@ class MyUser(auth.models.AbstractBaseUser):
             (TENTH, 10)
         )
 
-    first_name = models.CharField(max_length=30, verbose_name='Имя')
-    last_name = models.CharField(max_length=30, verbose_name='Фамилия')
-    email = models.EmailField(unique=True, db_index=True, verbose_name='Email')
-    city = models.CharField(max_length=255, db_index=True, verbose_name='Город')
+    first_name = models.CharField(max_length=30, verbose_name=r'Имя')
+    last_name = models.CharField(max_length=30, verbose_name=r'Фамилия')
+    email = models.EmailField(unique=True, db_index=True, verbose_name=r'Email')
+    city = models.CharField(max_length=255, db_index=True, verbose_name=r'Город')
     grade = models.CharField(max_length=2, db_index=True, choices=GRADES_CHOICES,\
-            verbose_name='Класс')
+            verbose_name=r'Класс')
 
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
@@ -108,7 +109,7 @@ class MyUser(auth.models.AbstractBaseUser):
     def is_staff(self):
         return self.is_admin
 
-    def __str__(self):
+    def __unicode__(self):
         return self.email
 
     class Meta:

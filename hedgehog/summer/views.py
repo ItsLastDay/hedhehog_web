@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.mail import send_mail
 from django.contrib.auth import logout, authenticate, login
@@ -56,13 +57,13 @@ def video_lectures_all(request):
 @require_GET
 def specific_course(request, name):
     if name == 'math78':
-        name = 'Математика 7-8'
+        name = u'Математика 7-8'
     elif name == 'phys78':
-        name = 'Физика 7-8'
+        name = u'Физика 7-8'
     elif name == 'math910':
-        name = 'Математика 9-10'
+        name = u'Математика 9-10'
     elif name == 'phys910':
-        name = 'Физика 9-10'
+        name = u'Физика 9-10'
     else:
         return redirect('/lectures/all', permanent=True)
 
@@ -84,14 +85,14 @@ def contact_us(request):
         form = ContactForm(request.POST)
 
         if form.is_valid():
-            subject = 'Вопрос от %s' % form.cleaned_data['name'] 
+            subject = u'Вопрос от %s' % form.cleaned_data['name'] 
             message = form.cleaned_data['question'] + '\n' + form.cleaned_data['email']
             sender = 'MSU-CHM@yandex.ru'
 
             recipients = ['misha@koltsov.su']
             send_mail(subject, message, sender, recipients)
 
-            success(request, 'Сообщение успешно отправлено')
+            success(request, u'Сообщение успешно отправлено')
         else:
             error(request, form.errors)
 
@@ -121,7 +122,7 @@ def registration_view(request):
                     city=city, grade=grade) 
             user.save()
 
-            success(request, 'Вы успешно зарегистрированы')
+            success(request, u'Вы успешно зарегистрированы')
         else:
             error(request, form.errors)
 
@@ -136,7 +137,7 @@ def user_view(request, uid):
     try:
         user = MyUser.objects.get(id=uid)
     except:
-        error(request, 'Запрошенный пользователь не найден.')
+        error(request, u'Запрошенный пользователь не найден.')
         return redirect('/home/', permanent=True)
 
     return render(request, 'userpage.html', {'user_r': user})
