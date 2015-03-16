@@ -10,6 +10,9 @@ from summer.models import *
 from summer.forms import *
 
 # Create your views here.
+@require_GET
+def main(request):
+    return redirect('/home', permanent=True)
 
 @require_GET
 def main_page(request):

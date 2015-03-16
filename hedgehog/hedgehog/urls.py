@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     url(r'^users/([0-9]+)/$', 'summer.views.user_view'),
     url(r'^login/$', 'summer.views.login_view'),
     url(r'^logout/$', 'summer.views.logout_view'),
+    url(r'^$', 'summer.views.main'),
 
 
 
