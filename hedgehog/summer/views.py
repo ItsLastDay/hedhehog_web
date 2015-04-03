@@ -36,6 +36,8 @@ def video_lesson_page(request, v_id):
     if request.method == "POST":
         form = HomeworkSubmitForm(request.POST, request.FILES)
         if form.is_valid():
+            hw = Homework(input_file=request.FILES['file'])
+            print(hw, hw.input_file)
             return redirect("", permanent=True)
     else:
         form = HomeworkSubmitForm()

@@ -119,3 +119,18 @@ class MyUser(auth.models.AbstractBaseUser):
 
     def get_absolute_url(self):
         return '/users/%d' % self.id
+
+def Homework(models.Model):
+    NOT_GRADED = r'Не проверено'
+    GRADED = r'Проверено'
+    GRADE_STATUS_CHOICES = (
+            (GRADED, GRADED), 
+            (NOT_GRADED, NOT_GRADED), 
+        )
+
+    status = models.CharField(max_length=20, db_index=True, choices=GRADE_STATUS_CHOICES,\
+            verbose_name=r'Статус')
+    submitted_by = models.ForeignKey('MyUser', related_name='homeworks')
+    videolesson = models.ForeignKey('Lesson', related_name='homeworks')
+    input_file = models.FileField(upload_to='in_homework')
+    result_file = models.FileField(upload_to='out_homework')
