@@ -18,7 +18,6 @@ def main(request):
 def main_page(request):
     return render(request, 'base.html', dict())
 
-@require_GET
 def video_lesson_page(request, v_id):
     data = dict()
 
@@ -33,12 +32,13 @@ def video_lesson_page(request, v_id):
     data['video'] = video
     data['other_lessons'] = course.lessons.all()
 
-    if request.method == "POST":
+    if request.method == 'POST':
         form = HomeworkSubmitForm(request.POST, request.FILES)
         if form.is_valid():
             hw = Homework(input_file=request.FILES['file'])
             print(hw, hw.input_file)
             return redirect("", permanent=True)
+        else:
     else:
         form = HomeworkSubmitForm()
 

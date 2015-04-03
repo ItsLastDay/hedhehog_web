@@ -53,7 +53,7 @@
             <div>
                 Загрузить решения:
                 {% if user.is_authenticated %}
-                    <form action="" method="POST" class="form-horizontal"
+                    <form action="/lessons/{{video.id}}/" method="post" class="form-horizontal"
                             enctype="multipart/form-data">
                         {% csrf_token %}
                         {{ form|as_bootstrap }}

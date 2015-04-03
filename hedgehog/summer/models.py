@@ -120,7 +120,7 @@ class MyUser(auth.models.AbstractBaseUser):
     def get_absolute_url(self):
         return '/users/%d' % self.id
 
-def Homework(models.Model):
+class Homework(models.Model):
     NOT_GRADED = r'Не проверено'
     GRADED = r'Проверено'
     GRADE_STATUS_CHOICES = (
