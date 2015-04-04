@@ -133,4 +133,4 @@ class Homework(models.Model):
     submitted_by = models.ForeignKey('MyUser', related_name='homeworks')
     videolesson = models.ForeignKey('Lesson', related_name='homeworks')
     input_file = models.FileField(upload_to='in_homework')
-    result_file = models.FileField(upload_to='out_homework')
+    result_file = models.FileField(upload_to='out_homework', verbose_name=r'Проверенная работа')
