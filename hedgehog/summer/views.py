@@ -37,8 +37,10 @@ def video_lesson_page(request, v_id):
         if form.is_valid():
             hw = Homework(submitted_by=request.user, videolesson=video, \
                     status=Homework.NOT_GRADED, input_file=request.FILES['file'])
+            if not(hw.input_file.name.endswith('.zip') or hw.input_file.name.endswith('.rar')):
+                error(request, r'Нужно загружать архивы (zip или rar)')
+                return redirect("/lessons/%d" % int(v_id), permanent=True)
             hw.save()
-            print(hw.id, hw.input_file)
             success(request, r'Файл успешно добавлен')
             return redirect("/lessons/%d" % int(v_id), permanent=True)
     else:
